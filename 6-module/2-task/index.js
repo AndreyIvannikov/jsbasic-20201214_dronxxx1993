@@ -40,6 +40,7 @@ export default class ProductCard {
   }
 
   _onCardButtonClick = (event) => {
+
     const customEvent = new CustomEvent("product-add", {
       detail: event.currentTarget.dataset.id,
       bubbles: true

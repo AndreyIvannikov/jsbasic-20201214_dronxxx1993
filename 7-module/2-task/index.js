@@ -22,6 +22,10 @@ export default class Modal {
     });
   }
 
+  get elem () {
+    return this._container;
+  }
+
   setTitle(title) {
     this._container.querySelector('.modal__title').innerHTML = title;
   }
