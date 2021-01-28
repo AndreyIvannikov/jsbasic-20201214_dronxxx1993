@@ -119,6 +119,7 @@ export default class Cart {
     this._modalBody = this.modal.elem.querySelector('.modal .modal__body');
     this.modal.setTitle('Your order');
     this.modal.open();
+
     this.cartItems.forEach(item => {
       return this.modal.setBody(this.renderProduct(item.product, item.count));
     });
@@ -131,10 +132,11 @@ export default class Cart {
       if (!button) {return;}
       if (button.classList.contains('cart-counter__button')) {
         this._idElement = button.closest('.cart-product').dataset.productId;
+
         if (button.classList.contains('cart-counter__button_plus')) {
-          this.updateProductCount(this.idElement, 1);
+          this.updateProductCount(this._idElement, 1);
         } else if (button.classList.contains('cart-counter__button_minus')) {
-          this.updateProductCount(this.idElement, -1);
+          this.updateProductCount(this._idElement, -1);
         }
       }
     });
@@ -145,7 +147,7 @@ export default class Cart {
     if (document.body.classList.contains('is-modal-open')) {
 
       if (cartItem.count === 0) {
-        this.$(`[data-product-id="${this.idElement}"]`).remove();
+        this.$(`[data-product-id="${this._idElement}"]`).remove();
         this.cartItems = this.cartItems.filter(item => {
           return item.count > 0;
         });
@@ -157,14 +159,14 @@ export default class Cart {
       }
 
       let price = cartItem.product.price * cartItem.count;
-      this.$(`[data-product-id="${this.idElement}"] .cart-counter__count`).innerHTML = `${cartItem.count}`;
-      this.$(`[data-product-id="${this.idElement}"] .cart-product__price`).innerHTML = `€${price.toFixed(2)}`;
+      this.$(`[data-product-id="${this._idElement}"] .cart-counter__count`).innerHTML = `${cartItem.count}`;
+      this.$(`[data-product-id="${this._idElement}"] .cart-product__price`).innerHTML = `€${price.toFixed(2)}`;
       this.$(`.cart-buttons__info-price`).innerHTML = `€${this.getTotalPrice().toFixed(2)}`;
     }
     this.cartIcon.update(this);
   }
 
-  async onSubmit(event) {
+  async _onSubmit(event) {
     event.preventDefault();
     const form = this.$('.cart-form');
     this.$('button[type=submit]').classList.add('is-loading');
