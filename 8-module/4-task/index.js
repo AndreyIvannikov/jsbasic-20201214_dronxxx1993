@@ -125,11 +125,13 @@ export default class Cart {
     });
     this.modal.setBody(this.renderOrderForm());
 
-    this.$('.cart-form').onsubmit = this._onSubmit;
+    this._select('.cart-form').onsubmit = this._onSubmit;
 
     this._modalBody.addEventListener('click', (event) => {
       let button = event.target.closest('button');
-      if (!button) {return;}
+      if (!button) {
+        return;
+      }
       if (button.classList.contains('cart-counter__button')) {
         this._idElement = button.closest('.cart-product').dataset.productId;
 
@@ -147,7 +149,7 @@ export default class Cart {
     if (document.body.classList.contains('is-modal-open')) {
 
       if (cartItem.count === 0) {
-        this.$(`[data-product-id="${this._idElement}"]`).remove();
+        this._select(`[data-product-id="${this._idElement}"]`).remove();
         this.cartItems = this.cartItems.filter(item => {
           return item.count > 0;
         });
@@ -159,17 +161,17 @@ export default class Cart {
       }
 
       let price = cartItem.product.price * cartItem.count;
-      this.$(`[data-product-id="${this._idElement}"] .cart-counter__count`).innerHTML = `${cartItem.count}`;
-      this.$(`[data-product-id="${this._idElement}"] .cart-product__price`).innerHTML = `€${price.toFixed(2)}`;
-      this.$(`.cart-buttons__info-price`).innerHTML = `€${this.getTotalPrice().toFixed(2)}`;
+      this._select(`[data-product-id="${this._idElement}"] .cart-counter__count`).innerHTML = `${cartItem.count}`;
+      this._select(`[data-product-id="${this._idElement}"] .cart-product__price`).innerHTML = `€${price.toFixed(2)}`;
+      this._select(`.cart-buttons__info-price`).innerHTML = `€${this.getTotalPrice().toFixed(2)}`;
     }
     this.cartIcon.update(this);
   }
 
   async _onSubmit(event) {
     event.preventDefault();
-    const form = this.$('.cart-form');
-    this.$('button[type=submit]').classList.add('is-loading');
+    const form = this._select('.cart-form');
+    this._select('button[type=submit]').classList.add('is-loading');
     let response = await fetch('https://httpbin.org/post', {
       method: 'POST',
       body: new FormData(form),
@@ -188,7 +190,7 @@ export default class Cart {
     }
   }
 
-  $ = (selector) => {
+  _select = (selector) => {
     return this._modalBody.querySelector(selector);
   }
 
@@ -196,4 +198,3 @@ export default class Cart {
     this.cartIcon.elem.onclick = () => this.renderModal();
   }
 }
-

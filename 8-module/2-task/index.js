@@ -26,14 +26,14 @@ export default class ProductGrid {
     return this._container;
   }
 
-  $ = (selector) => {
+  _select = (selector) => {
     return this._elemCard.querySelector(selector);
   }
 
   _render() {
     this._products.map((item) => {
       this._card = new ProductCard(item);
-      this.$('.products-grid__inner').append(this._card.elem);
+      this._select('.products-grid__inner').append(this._card.elem);
     }).join('');
     this._container = this._elemCard;
   }
@@ -67,10 +67,10 @@ export default class ProductGrid {
       this._filterElement('vegeterian');
     }
 
-    this.$('.products-grid__inner').innerHTML = '';
+    this._select('.products-grid__inner').innerHTML = '';
     this.newArr.forEach(element => {
       this._card = new ProductCard(element);
-      this.$('.products-grid__inner').append(this._card.elem);
+      this._select('.products-grid__inner').append(this._card.elem);
     });
   }
 

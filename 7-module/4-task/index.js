@@ -15,13 +15,24 @@ export default class StepSlider {
     this._render();
   }
 
+
+
   get elem () {
     return this._container;
   }
 
   _render() {
-    this._container = createElement(_createSlider(this._steps));
+    this._container = createElement(_createSlider(this._steps, this._value));
     this._getElementsForListener();
+    this._customStyle();
+  }
+
+  _customStyle() {
+    const position = 100 / (this._steps - 1) * this._value;
+    this._sliderProgress = this._container.querySelector('.slider__progress');
+    this._sliderThumb = this._container.querySelector('.slider__thumb');
+    this._sliderProgress.style.width = `${position}%`;
+    this._sliderThumb.style.left = `${position}%`;
   }
 
   _getElementsForListener () {

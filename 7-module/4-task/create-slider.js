@@ -1,12 +1,12 @@
 
-export default function _createSlider(steps) {
+export default function _createSlider(steps, value) {
   return `
   <div class = 'slider'>
   <div class="slider__thumb" style="left: 0;">
-    <span class="slider__value">0</span>
+    <span class="slider__value">${value}</span>
   </div>
 
-  <div class="slider__progress" style="width: 0;"></div>
+  <div class="slider__progress"></div>
   <div class="slider__steps">
     ${_stepsSlider(steps)}
   </div>

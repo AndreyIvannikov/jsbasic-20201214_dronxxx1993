@@ -2,16 +2,18 @@ import createElement from '../../assets/lib/create-element.js';
 
 export default class CartIcon {
   constructor() {
-    this._render();
     this._initialTopCoord = null;
+    this.elem = null;
+    this._render();
     this.addEventListeners();
   }
-
+ 
   _render() {
     this.elem = createElement('<div class="cart-icon"></div>');
   }
 
   update(cart) {
+
     if (!cart.isEmpty()) {
       this.elem.classList.add('cart-icon_visible');
 
@@ -48,25 +50,28 @@ export default class CartIcon {
     }
 
     if (window.pageYOffset > this._initialTopCoord) {
-      Object.assign(this.elem.style, {
-        position: 'fixed',
-        top: `50px`,
-        left: this.leftIndent });
+      this._fixedPosition();
     } else {
-      Object.assign(this.elem.style, {
-        position: '',
-        top: '',
-        left: ''
-      })
+      this._resetPosition();
     }
 
-    if(document.documentElement.clientWidth <= 768) {
-      Object.assign(this.elem.style, {
-        position: '',
-        top: '',
-        left: ''
-      })
+    if (document.documentElement.clientWidth <= 768) {
+      this._resetPosition();
     }
+  }
 
+  _fixedPosition() {
+    Object.assign(this.elem.style, {
+      position: 'fixed',
+      top: `50px`,
+      left: this.leftIndent });
+  }
+
+  _resetPosition() {
+    Object.assign(this.elem.style, {
+      position: '',
+      top: '',
+      left: ''
+    });
   }
 }
